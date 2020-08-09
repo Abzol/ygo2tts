@@ -7,6 +7,13 @@ usage:
 ydk (or similar deck list) files should contain one #main heading, followed by 40 lines of card numbers. That list will be output as a png named the same as the input file, but with *-main* attached to the end. If the ydk contains either #extra or !side, it will output a similarly named file (*-extra* or *-side*). If no headings are found, it's assumed the decklist is simply a list of 40 maindeck cards.
 (These numerical IDs the card database uses is printed in the lower-left corner on all cards.)
 
+Requirements:
+python3 (to my knowledge any version)
+[requests](https://requests.readthedocs.io/en/master/)
+
+For windows users, there's a prebuilt binary:
+[releases](https://github.com/Abzol/ygo2tts/releases)
+
 # Importing into Tabletop Simulator
 To import into Tabletop Simulator, press *Objects*, then *Components*, and create a *Custom Deck*.
 The main deck should be imported with the settings:
