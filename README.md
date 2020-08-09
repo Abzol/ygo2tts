@@ -8,11 +8,11 @@ ydk (or similar deck list) files should contain one #main heading, followed by 4
 (These numerical IDs the card database uses is printed in the lower-left corner on all cards.)
 
 Requirements:
-python3 (to my knowledge any version)
-[requests](https://requests.readthedocs.io/en/master/)
+- python3 (to my knowledge any version), 
+- [requests](https://requests.readthedocs.io/en/master/)
 
 For windows users, there's a prebuilt binary:
-[releases](https://github.com/Abzol/ygo2tts/releases)
+- [releases](https://github.com/Abzol/ygo2tts/releases)
 
 # Importing into Tabletop Simulator
 To import into Tabletop Simulator, press *Objects*, then *Components*, and create a *Custom Deck*.
