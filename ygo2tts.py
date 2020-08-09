@@ -18,8 +18,8 @@ if __name__ == '__main__':
     if (len(sys.argv) < 2):
         print('Please submit a decklist')
         sys.exit()
-    deckname = sys.argv[1].split('.')[0]
-    with open(sys.argv[1], 'r') as f:
+    path, filename = os.path.split(sys.argv[1])
+    with open(os.path.join(path, filename), 'r') as f:
         state = 'main' #assume
         maindeck  = []
         extradeck = []
@@ -81,4 +81,4 @@ if __name__ == '__main__':
                 elif (position[0] == (DECKTYPE_SIZE[0] -1)):
                     position = (0, position[1]+1)
                 print('Added', card)
-            deckimage.save(deckname + '-' + deck + '.png')
+            deckimage.save(os.path.join(path, ''.join(filename.split('.')[:-1]) + '-' + deck + '.png'))
