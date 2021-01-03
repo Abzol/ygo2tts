@@ -1,0 +1,108 @@
+{
+    "format":
+    {
+        "SaveName": "",
+        "GameMode": "",
+        "Date": "",
+        "Gravity": 0.5,
+        "PlayArea": 0.5,
+        "GameType": "",
+        "GameComplexity": "",
+        "Tags": [],
+        "Table": "",
+        "Sky": "",
+        "Note": "",
+        "Rules": "",
+        "TabStates": {},
+        "ObjectStates": [],
+        "LuaScript": "",
+        "LuaScriptState": "",
+        "XmlUI": "",
+        "VersionNumber": ""
+    },
+"deck":{
+        "Name": "DeckCustom",
+        "Transform": {
+        "posX": 0.0,
+        "posY": 0.0,
+        "posZ": 0.0,
+        "rotX": 0.0,
+        "rotY": 180.0,
+        "rotZ": 180.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "scaleZ": 1.0
+        },
+        "Nickname": "",
+        "Description": "",
+        "GMNotes": "",
+        "ColorDiffuse": {
+        "r": 0.713235269,
+        "g": 0.713235269,
+        "b": 0.713235269
+        },
+        "Locked": false,
+        "Grid": true,
+        "Snap": true,
+        "IgnoreFoW": false,
+        "MeasureMovement": false,
+        "DragSelectable": true,
+        "Autoraise": true,
+        "Sticky": true,
+        "Tooltip": true,
+        "GridProjection": false,
+        "HideWhenFaceDown": true,
+        "Hands": false,
+        "SidewaysCard": false,
+        "DeckIDs": [],
+        "CustomDeck": {
+        },
+        "LuaScript": "",
+        "LuaScriptState": "",
+        "XmlUI": "",
+        "ContainedObjects": [],
+        "GUID" : ""
+    },
+    "card":
+    {
+        "FaceURL": "",
+        "BackURL": "",
+        "NumWidth": 1,
+        "NumHeight": 1,
+        "BackIsHidden": true,
+        "UniqueBack": false,
+        "Type": 0
+    },
+"contain":{
+        "Name": "Card",
+        "Transform": {
+            "posX": 0.0,
+            "posY": 0.0,
+            "posZ": 0.0,
+            "rotX": 0.0,
+            "rotY": 180.0,
+            "rotZ": 180.0,
+            "scaleX": 1.0,
+            "scaleY": 1.0,
+            "scaleZ": 1.0
+          },
+        "Nickname": "",
+        "Description": "",
+        "GMNotes": "",
+        "Locked": false,
+        "Grid": true,
+        "Snap": true,
+        "IgnoreFoW": false,
+        "MeasureMovement": false,
+        "DragSelectable": true,
+        "Autoraise": true,
+        "Sticky": true,
+        "Tooltip": true,
+        "GridProjection": false,
+        "CardID": 0,
+        "LuaScript": "",
+        "LuaScriptState": "",
+        "XmlUI": "",
+        "GUID": ""
+        }
+}
