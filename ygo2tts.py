@@ -83,10 +83,11 @@ def render_stable(path, filename):
             deckimage.save(os.path.join(path, ''.join(filename.split('.')[:-1]) + '-' + deck + '.png'))
 
 def render_beta(path, filename, docpath):
-    main_back = input("Paste URL for Main Deck sleeves: ")
+    print('Paste URL for Main and Extra deck sleeves (leave blank for default backs).')
+    main_back = input("Main Deck sleeves: ")
     if (main_back == ''):
         main_back = 'https://i.imgur.com/UjbK2Wb.png'
-    extra_back = input("Paste URL for Extra Deck sleeves: ")
+    extra_back = input("Extra Deck sleeves: ")
     if (extra_back == ''):
         extra_back = 'https://i.imgur.com/UjbK2Wb.png'
     with open('format.json', 'r') as infile:
@@ -152,11 +153,19 @@ def render_beta(path, filename, docpath):
                 deckjson['ContainedObjects'].append(contain)
                 print('Added', card)
         data['ObjectStates'].append(deckjson)
-    if docpath == "":
-        docpath = os.path.expanduser('~/Documents/My Games/Tabletop Simulator/Saves/Saved Objects/')
-        if not (os.path.isdir(os.path.join(docpath, 'ygo2tts/'))):
-            os.mkdir(os.path.join(docpath, 'ygo2tts'))
-        docpath = os.path.join(docpath, 'ygo2tts/')
+    try:
+        if docpath == "":
+            docpath = os.path.expanduser('~/Documents/My Games/Tabletop Simulator/Saves/Saved Objects/')
+            if not (os.path.isdir(os.path.join(docpath, 'ygo2tts/'))):
+                os.mkdir(os.path.join(docpath, 'ygo2tts'))
+            docpath = os.path.join(docpath, 'ygo2tts/')
+    except Exception as e:
+        print(e)
+        print('You likely need to input your Tabletop Sim folder manually.')
+        print('You can do this in the included ygo2tts_config.json file.')
+        print('The target path should be (user)/Documents/My Games/Tabletop Simulator/Saves/Saved Objects/')
+        input('Press enter to exit')
+        sys.exit()
     with open(os.path.join(docpath, ''.join(filename.split('.')[:-1]) + '.json'), 'w') as of:
         json.dump(data, of, indent=2)
     r = requests.get(main_back)
