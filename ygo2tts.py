@@ -8,6 +8,7 @@ import os
 import os.path
 import json
 import copy
+from bs4 import BeautifulSoup
 
 CARD_SIZE  = (421, 614) #ygopro uploads are this size
 DECK_SIZE  = (10, 4)
@@ -82,7 +83,24 @@ def render_stable(path, filename):
                 print('Added', card)
             deckimage.save(os.path.join(path, ''.join(filename.split('.')[:-1]) + '-' + deck + '.png'))
 
-def render_beta(path, filename, docpath):
+def render_beta(path, filename, config):
+    docpath = config['docpath']
+    beta_description = config['beta_description']
+    def get_cardinfo(cid):
+        if cid not in cardinfo:
+            print('Downloading new card info...')
+            r = requests.get('https://db.ygoprodeck.com/card/?search=' + str(card))
+            soup = BeautifulSoup(r.text, 'html.parser')
+            cname = soup.title.contents[0].split(' - ')[0]
+            cdesc = soup.find('meta', attrs={'property':'og:description'})['content']
+            cardinfo[cid] = {}
+            cardinfo[cid]['name'] = cname
+            cardinfo[cid]['description'] = cdesc
+            time.sleep(1.0)
+            cardinfodb.seek(0)
+            cardinfodb.write(json.dumps(cardinfo, indent=2))
+        contain['Nickname'] = cardinfo[cid]['name']
+        contain['Description'] = cardinfo[cid]['description'].replace('●', '\n●')
     print('Paste URL for Main and Extra deck sleeves (leave blank for default backs).')
     main_back = input("Main Deck sleeves: ")
     if (main_back == ''):
@@ -138,20 +156,24 @@ def render_beta(path, filename, docpath):
                 cards = extradeck
                 offset = 101
                 deckjson['Transform']['posX'] = -2.5
-            for index, card in enumerate(cards):
-                url = URL_BASE + card + '.jpg'
-                deckjson['DeckIDs'].append((offset+index)*100)
-                c = dict(card_fmt)
-                c['FaceURL'] = url
-                if (deck == 'main'):
-                    c['BackURL'] = main_back
-                elif (deck == 'extra'):
-                    c['BackURL'] = extra_back
-                deckjson['CustomDeck'][str(offset+index)] = c
-                contain = dict(contain_fmt)
-                contain['CardID'] = (offset+index)*100
-                deckjson['ContainedObjects'].append(contain)
-                print('Added', card)
+            with open('cardinfo', 'r+') as cardinfodb:
+                cardinfo = json.load(cardinfodb)
+                for index, card in enumerate(cards):
+                    url = URL_BASE + card + '.jpg'
+                    deckjson['DeckIDs'].append((offset+index)*100)
+                    c = dict(card_fmt)
+                    c['FaceURL'] = url
+                    if (deck == 'main'):
+                        c['BackURL'] = main_back
+                    elif (deck == 'extra'):
+                        c['BackURL'] = extra_back
+                    deckjson['CustomDeck'][str(offset+index)] = c
+                    contain = dict(contain_fmt)
+                    if beta_description:
+                        get_cardinfo(card)
+                    contain['CardID'] = (offset+index)*100
+                    deckjson['ContainedObjects'].append(contain)
+                    print('Added', card)
         data['ObjectStates'].append(deckjson)
     try:
         if docpath == "":
@@ -188,4 +210,4 @@ if __name__ == '__main__':
     if config['beta'] == False:
         render_stable(path, filename)
     else:
-        render_beta(path, filename, config['docpath'])
+        render_beta(path, filename, config)
