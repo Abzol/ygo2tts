@@ -8,7 +8,6 @@ import os
 import os.path
 import json
 import copy
-from bs4 import BeautifulSoup
 import re
 
 CARD_SIZE  = (421, 614) #ygopro uploads are this size
