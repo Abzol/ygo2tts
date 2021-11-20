@@ -97,6 +97,7 @@ def render_beta(path, filename, config):
             cardinfo[cid]['description'] = data['data'][0]['desc']
             cardinfodb.seek(0)
             cardinfodb.write(json.dumps(cardinfo, indent=2))
+            time.sleep(1.0) # api requests at least 0.05s but we have time to spare
         contain['Nickname'] = cardinfo[cid]['name']
         contain['Description'] = cardinfo[cid]['description'].replace('. ', '.\n\n').rstrip()
     
