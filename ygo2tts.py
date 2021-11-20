@@ -9,6 +9,7 @@ import os.path
 import json
 import copy
 from bs4 import BeautifulSoup
+import re
 
 CARD_SIZE  = (421, 614) #ygopro uploads are this size
 DECK_SIZE  = (10, 4)
@@ -16,7 +17,7 @@ EXTRA_SIZE = (5, 3)
 
 #URL_BASE = 'https://yugioh.fandom.com/wiki/'
 #URL_BASE = 'https://db.ygoprodeck.com/card/?search='
-URL_BASE = 'https://ygoprodeck.com/pics/'
+URL_BASE = 'https://storage.googleapis.com/ygoprodeck.com/pics/'
 
 def render_stable(path, filename):
     with open(os.path.join(path, filename), 'r') as f:
@@ -86,21 +87,20 @@ def render_stable(path, filename):
 def render_beta(path, filename, config):
     docpath = config['docpath']
     beta_description = config['beta_description']
+
     def get_cardinfo(cid):
         if cid not in cardinfo:
             print('Downloading new card info...')
-            r = requests.get('https://db.ygoprodeck.com/card/?search=' + str(card))
-            soup = BeautifulSoup(r.text, 'html.parser')
-            cname = soup.title.contents[0].split(' - ')[0]
-            cdesc = soup.find('meta', attrs={'property':'og:description'})['content']
+            r = requests.get(f'https://db.ygoprodeck.com/api/v7/cardinfo.php?id={cid}')
+            data = json.loads(r.text)
             cardinfo[cid] = {}
-            cardinfo[cid]['name'] = cname
-            cardinfo[cid]['description'] = cdesc
-            time.sleep(1.0)
+            cardinfo[cid]['name'] = data['data'][0]['name']
+            cardinfo[cid]['description'] = data['data'][0]['desc']
             cardinfodb.seek(0)
             cardinfodb.write(json.dumps(cardinfo, indent=2))
         contain['Nickname'] = cardinfo[cid]['name']
-        contain['Description'] = cardinfo[cid]['description'].replace('●', '\n●')
+        contain['Description'] = cardinfo[cid]['description'].replace('. ', '.\n\n').rstrip()
+    
     print('Paste URL for Main and Extra deck sleeves (leave blank for default backs).')
     main_back = input("Main Deck sleeves: ")
     if (main_back == ''):
